@@ -28,7 +28,7 @@ namespace Otter {
         /// <returns>New shader instance</returns>
         public static SFML.Graphics.Shader FromString(string vertexShader, string fragmentShader)
         {
-            SFML.Graphics.Shader shader = SFML.Graphics.Shader.FromString(vertexShader, fragmentShader);
+            SFML.Graphics.Shader shader = new SFML.Graphics.Shader(vertexShader, null, fragmentShader);
 
             return shader;
         }
@@ -87,7 +87,7 @@ namespace Otter {
         /// <param name="vertexFile">The file path to the vertex shader.</param>
         /// <param name="fragmentFile">The file path to the fragment shader.</param>
         public Shader(string vertexFile, string fragmentFile) {
-            SFMLShader = new SFML.Graphics.Shader(Files.LoadFileStream(vertexFile), Files.LoadFileStream(fragmentFile));
+            SFMLShader = new SFML.Graphics.Shader(Files.LoadFileStream(vertexFile), null, Files.LoadFileStream(fragmentFile));
         }
 
         /// <summary>
@@ -96,7 +96,7 @@ namespace Otter {
         /// <param name="vertexStream">The stream for the vertex shader.</param>
         /// <param name="fragmentStream">The stream for the fragment shader.</param>
         public Shader(Stream vertexStream, Stream fragmentStream) {
-            SFMLShader = new SFML.Graphics.Shader(vertexStream, fragmentStream);
+            SFMLShader = new SFML.Graphics.Shader(vertexStream, null, fragmentStream);
         }
 
         /// <summary>
@@ -106,10 +106,10 @@ namespace Otter {
         /// <param name="source">The stream for the shader.</param>
         public Shader(ShaderType shaderType, Stream source) {
             if (shaderType == ShaderType.Vertex) {
-                SFMLShader = new SFML.Graphics.Shader(source, null);
+                SFMLShader = new SFML.Graphics.Shader(source, null, null);
             }
             else {
-                SFMLShader = new SFML.Graphics.Shader(null, source);
+                SFMLShader = new SFML.Graphics.Shader(null, null, source);
             }
         }
 
@@ -121,10 +121,10 @@ namespace Otter {
         public Shader(string source) {
             var str = System.Text.Encoding.Default.GetString(Files.LoadFileBytes(source));
             if (source.Contains(".frag") || source.Contains(".fs")) {
-                SFMLShader = SFML.Graphics.Shader.FromString(null, str);
+                SFMLShader = new SFML.Graphics.Shader(null, null, str);
             }
             else {
-                SFMLShader = new SFML.Graphics.Shader(str, null);
+                SFMLShader = new SFML.Graphics.Shader(str, null, null);
             }
         }
 
@@ -141,10 +141,10 @@ namespace Otter {
         /// <param name="source">The file path.</param>
         public Shader(ShaderType shaderType, string source) {
             if (shaderType == ShaderType.Vertex) {
-                SFMLShader = new SFML.Graphics.Shader(source, null);
+                SFMLShader = new SFML.Graphics.Shader(source, null, null);
             }
             else {
-                SFMLShader = new SFML.Graphics.Shader(null, source);
+                SFMLShader = new SFML.Graphics.Shader(null, null, source);
             }
         }
 
@@ -164,7 +164,7 @@ namespace Otter {
         /// <param name="name">The parameter in the shader to set.</param>
         /// <param name="color">The color to set it to.</param>
         public void SetParameter(string name, Color color) {
-            SFMLShader.SetParameter(name, color.SFMLColor);
+            SFMLShader.SetUniform(name, color.SFMLColor.ToInteger());
         }
 
         /// <summary>
@@ -182,7 +182,7 @@ namespace Otter {
         /// <param name="name">The parameter in the shader to set.</param>
         /// <param name="x">The value to set it to.</param>
         public void SetParameter(string name, float x) {
-            SFMLShader.SetParameter(name, x);
+            SFMLShader.SetUniform(name, x);
         }
 
         /// <summary>
@@ -201,7 +201,7 @@ namespace Otter {
         /// <param name="x">The first value of a vec2.</param>
         /// <param name="y">The first value of a vec2.</param>
         public void SetParameter(string name, float x, float y) {
-            SFMLShader.SetParameter(name, x, y);
+            SFMLShader.SetUniform(name, new SFML.System.Vector2f(x, y));
         }
 
         /// <summary>
@@ -220,7 +220,7 @@ namespace Otter {
         /// <param name="name">The parameter in the shader to set.</param>
         /// <param name="xy">A Vector2 to set.</param>
         public void SetParameter(string name, Vector2 xy) {
-            SFMLShader.SetParameter(name, xy.X, xy.Y);
+            SFMLShader.SetUniform(name, (SFML.System.Vector2f)xy);
         }
 
         /// <summary>
@@ -238,7 +238,7 @@ namespace Otter {
         /// <param name="name">The parameter in the shader to set.</param>
         /// <param name="xyz">A Vector3 to set.</param>
         public void SetParameter(string name, Vector3 xyz) {
-            SFMLShader.SetParameter(name, xyz.X, xyz.Y, xyz.Z);
+            SFMLShader.SetUniform(name, (SFML.System.Vector3f)xyz);
         }
 
         /// <summary>
@@ -247,7 +247,7 @@ namespace Otter {
         /// <param name="name">The parameter in the shader to set.</param>
         /// <param name="xyz">A Vector3 to set.</param>
         public void SetParameter(Enum name, Vector3 xyz) {
-            SetParameter(Parameter(name), xyz.X, xyz.Y, xyz.Z);
+            SetParameter(Parameter(name), xyz);
         }
         
         /// <summary>
@@ -256,7 +256,7 @@ namespace Otter {
         /// <param name="name">The parameter in the shader to set.</param>
         /// <param name="xyzw">A Vector4 to set.</param>
         public void SetParameter(string name, Vector4 xyzw) {
-            SFMLShader.SetParameter(name, xyzw.X, xyzw.Y, xyzw.Z, xyzw.W);
+            SFMLShader.SetUniform(name, new SFML.Graphics.Glsl.Vec4(xyzw.X, xyzw.Y, xyzw.Z, xyzw.W));
         }
 
         /// <summary>
@@ -276,7 +276,7 @@ namespace Otter {
         /// <param name="y">The second value of a vec3.</param>
         /// <param name="z">The third value of a vec3.</param>
         public void SetParameter(string name, float x, float y, float z) {
-            SFMLShader.SetParameter(name, x, y, z);
+            SFMLShader.SetUniform(name, new SFML.System.Vector3f(x, y, z));
         }
 
         /// <summary>
@@ -299,7 +299,7 @@ namespace Otter {
         /// <param name="z">The third value of a vec4.</param>
         /// <param name="w">The fourth value of a vec4.</param>
         public void SetParameter(string name, float x, float y, float z, float w) {
-            SFMLShader.SetParameter(name, x, y, z, w);
+            SFMLShader.SetUniform(name, new SFML.Graphics.Glsl.Vec4(x, y, z, w));
         }
 
         /// <summary>
@@ -320,7 +320,7 @@ namespace Otter {
         /// <param name="name">The parameter in the shader to set.</param>
         /// <param name="texture">The texture to set it to.</param>
         public void SetParameter(string name, Texture texture) {
-            SFMLShader.SetParameter(name, texture.SFMLTexture);
+            SFMLShader.SetUniform(name, texture.SFMLTexture);
         }
 
         /// <summary>
@@ -338,7 +338,7 @@ namespace Otter {
         /// <param name="name">The parameter in the shader to set.</param>
         /// <param name="textureSource">The path to an image to load as a texture.</param>
         public void SetParameter(string name, string textureSource) {
-            SFMLShader.SetParameter(name, new Texture(textureSource).SFMLTexture);
+            SFMLShader.SetUniform(name, new Texture(textureSource).SFMLTexture);
         }
 
         /// <summary>
@@ -356,7 +356,7 @@ namespace Otter {
         /// <param name="name">The parameter in the shader to set.</param>
         /// <param name="matrix">The matrix to use. SFML internally uses 3x3 matrices, but you need to use a mat4 in the shader.</param>
         public void SetParameter(string name, Matrix matrix) {
-            SFMLShader.SetParameter(name, new SFML.Graphics.Transform(matrix.M11, matrix.M12, matrix.M13, matrix.M21, matrix.M22, matrix.M23, matrix.M31, matrix.M32, matrix.M33));
+            SFMLShader.SetUniform(name, new SFML.Graphics.Glsl.Mat3(matrix.M11, matrix.M12, matrix.M13, matrix.M21, matrix.M22, matrix.M23, matrix.M31, matrix.M32, matrix.M33));
         }
 
         /// <summary>

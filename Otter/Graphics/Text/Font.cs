@@ -30,7 +30,7 @@ namespace Otter {
         }
 
         internal virtual Glyph GetGlyph(char c, int size, bool bold) {
-            return font.GetGlyph((uint)c, (uint)size, bold);
+            return font.GetGlyph((uint)c, (uint)size, bold, 0);
         }
 
         internal virtual float GetLineSpacing(int size) {

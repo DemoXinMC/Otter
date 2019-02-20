@@ -274,7 +274,7 @@ namespace Otter {
             if (isUsingOutline) {
                 var outlineColor = new Color(OutlineColor);
                 outlineColor.A = Color.A;
-                text.Color = outlineColor.SFMLColor;
+                text.FillColor = outlineColor.SFMLColor;
                 var angleIncrement = (int)OutlineQuality;
                 for (float o = OutlineThickness * 0.5f; o < OutlineThickness; o += 0.5f) {
                     for (int a = 0; a < 360; a += angleIncrement) {
@@ -289,11 +289,11 @@ namespace Otter {
             if (isUsingShadow) {
                 var shadowColor = new Color(ShadowColor);
                 shadowColor.A = Color.A;
-                text.Color = shadowColor.SFMLColor;
+                text.FillColor = shadowColor.SFMLColor;
                 base.Render(x + ShadowX, y + ShadowY);
             }
 
-            text.Color = Color.SFMLColor;
+            text.FillColor = Color.SFMLColor;
             base.Render(x, y);
         }
 

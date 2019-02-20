@@ -421,7 +421,10 @@ namespace Otter {
 
             if (saveNextFrame) {
                 saveNextFrame = false;
-                game.Window.Capture().SaveToFile(saveNameFramePath);
+                var frame = new SFML.Graphics.Texture(Game.Window.Size.X, game.Window.Size.Y);
+                frame.Update(Game.Window);
+                var image = frame.CopyToImage();
+                image.SaveToFile(saveNameFramePath);
             }
 
             if (AutoClear) Clear(FillColor);

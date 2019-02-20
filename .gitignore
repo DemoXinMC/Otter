@@ -7,3 +7,5 @@ Properties
 *.user
 *.nuspec
 *.suo
+.vs/
+Otter/.vs/

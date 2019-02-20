@@ -310,7 +310,7 @@ namespace Otter {
         /// <param name="color">The color of the line.</param>
         /// <param name="thickness">The thickness of the line.</param>
         static public void RoundedLine(float x1, float y1, float x2, float y2, Color color, float thickness) {
-            VertexArray vertices = new VertexArray(PrimitiveType.TrianglesFan);
+            VertexArray vertices = new VertexArray(PrimitiveType.TriangleFan);
 
             int rotationSteps = 10;
 

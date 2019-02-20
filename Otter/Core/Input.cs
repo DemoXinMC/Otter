@@ -465,7 +465,7 @@ namespace Otter {
             //Console.WriteLine("Joystick " + e.JoystickId + " moved axis " + e.Axis + " to " + e.Position);
         }
 
-        void OnMouseWheelMoved(object sender, MouseWheelEventArgs e) {
+        void OnMouseWheelScrolled(object sender, MouseWheelScrollEventArgs e) {
             currentMouseWheelDelta = e.Delta;
         }
 
@@ -733,7 +733,7 @@ namespace Otter {
             Game.Window.JoystickButtonReleased += OnButtonReleased;
             Game.Window.JoystickConnected += OnJoystickConnected;
             Game.Window.JoystickMoved += OnJoystickMoved;
-            Game.Window.MouseWheelMoved += OnMouseWheelMoved;
+            Game.Window.MouseWheelScrolled += OnMouseWheelScrolled;
         }
 
         internal void GameMouseUpdate(int x, int y) {

@@ -518,6 +518,13 @@ namespace Otter {
             return value1;
         }
 
+        public static implicit operator SFML.System.Vector2f(Vector2 other) => new SFML.System.Vector2f(other.X, other.Y);
+        public static implicit operator SFML.System.Vector2i(Vector2 other) => new SFML.System.Vector2i((int)other.X, (int)other.Y);
+        public static implicit operator SFML.System.Vector2u(Vector2 other) => new SFML.System.Vector2u((uint)other.X, (uint)other.Y);
+        public static implicit operator Vector2(SFML.System.Vector2f other) => new Vector2(other.X, other.Y);
+        public static implicit operator Vector2(SFML.System.Vector2i other) => new Vector2(other.X, other.Y);
+        public static implicit operator Vector2(SFML.System.Vector2u other) => new Vector2(other.X, other.Y);
+
         #endregion Operators
 
     }
