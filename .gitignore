@@ -8,4 +8,4 @@ Properties
 *.nuspec
 *.suo
 .vs/
-Otter/.vs/
+Build
